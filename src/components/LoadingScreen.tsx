@@ -1,7 +1,5 @@
-const LoadingScreen = () => (
-  <div className="loading-screen">
-    Loading...
-  </div>
+const LoadingScreen = (): JSX.Element => (
+  <div className="loading-screen">Loading...</div>
 );
 
 export default LoadingScreen;

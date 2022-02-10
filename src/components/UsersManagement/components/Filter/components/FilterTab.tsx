@@ -21,4 +21,4 @@ const FilterTab: FC<IFilterTab> = ({
   );
 }
 
-export default FilterTab
+export default FilterTab;

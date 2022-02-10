@@ -2,6 +2,7 @@ import { FC } from 'react';
 import { Routes } from "~/constants";
 import { IItem } from "~/services/getUserItems";
 import FilterTab from "./components/FilterTab"
+import { getItemCount } from '~/utils/getFunctions';
 
 import './filter-style.scss';
 
@@ -10,19 +11,12 @@ interface IFilter {
 }
 
 const Filter: FC<IFilter> = ({items}) => {
-  const weakItemsCount = items.reduce((count, item) => (
-     (count + 1) 
-  ), 0)
-
-  const reusedItemsCount = items.reduce((count, item) => (
-    (count + 1)
-  ), 0)
-
   return (
     <div className="filter">
       <FilterTab title="all" count={items.length} path={Routes.Users}/>
-      <FilterTab title="Wrong" count={weakItemsCount} path={Routes.Weak}/>
-      <FilterTab title="Reused" count={reusedItemsCount} path={Routes.Reused}/>
+      <FilterTab title="Wrong" count={getItemCount(items, "email")} path={Routes.Weak}/>
+      <FilterTab title="Reused" count={getItemCount(items)} path={Routes.Reused}/>
+      <FilterTab title="Old" count={getItemCount(items, "age")} path={Routes.Old} /> 
     </div>
   );
 };

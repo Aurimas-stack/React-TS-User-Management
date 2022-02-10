@@ -1,5 +1,5 @@
 import {API} from "~/constants";
-import getUrl from "~/utils/getUrl";
+import { getUrl } from "~/utils/getFunctions";
 
 export enum Roles {
   read = 'read',

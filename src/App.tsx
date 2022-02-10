@@ -9,7 +9,7 @@ import { UserContextProvider } from './components/UserContext';
 
 import './style/styles.scss';
 
-const App = () => (
+const App = (): JSX.Element => (
   <Router>
     <Switch>
       <PublicRoute

@@ -14,9 +14,10 @@ interface IUpdateModal {
   item: IItem;
 }
 
+
 const UpdateModal: FC<IUpdateModal> = ({ item }) => {
-  const [showModal, setShowModal] = useState(false);
-  const [newEmail, setNewEmail] = useState('');
+  const [showModal, setShowModal] = useState<boolean>(false);
+  const [newEmail, setNewEmail] = useState<string>("");
 
   return (
     <>
@@ -25,6 +26,7 @@ const UpdateModal: FC<IUpdateModal> = ({ item }) => {
       </button>
       <Modal
         className="modal"
+        appElement={document.getElementById('app')}
         isOpen={showModal}
         onRequestClose={() => setShowModal(false)}
         contentLabel="Example Modal"
@@ -42,8 +44,7 @@ const UpdateModal: FC<IUpdateModal> = ({ item }) => {
               ...item,
               email: newEmail,
             })
-
-            window.location.reload();
+            setShowModal(false)
           }}>Change</button>
           <button className="button ml-12px" onClick={() => {
             setShowModal(false)
@@ -59,8 +60,8 @@ const UpdateModal: FC<IUpdateModal> = ({ item }) => {
 const List: FC<IList> = ({items}) => (
   <ul className="list">
     {
-      items.map((item) => (
-        <li className="item">
+      items.map((item, key) => (
+        <li className="item" key={key}>
           <ItemIcon name={item.name}/>
           <div>
             <div className="title">
@@ -68,6 +69,9 @@ const List: FC<IList> = ({items}) => (
             </div>
             <div className="description">
               {item.email}
+            </div>
+            <div className="creation_date">
+              {item.createdAt.substring(0, 10)}
             </div>
           </div>
           <UpdateModal item={item} />
