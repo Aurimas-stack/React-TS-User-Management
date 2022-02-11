@@ -24,6 +24,9 @@
       margin-left: 12px;
       border-radius: 9px;
       border-width: 0;
+      &:hover {
+        background-color: $grey;
+      }
     }
   }
 }

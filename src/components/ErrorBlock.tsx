@@ -7,7 +7,7 @@ interface IErrorBlock {
 const ErrorBlock: FC<IErrorBlock> = ({ error }) => {
   if (!error) return null;
 
-  return <div>{error}</div>;
+  return <div className="error_block">{error}</div>;
 };
 
 export default memo(ErrorBlock);

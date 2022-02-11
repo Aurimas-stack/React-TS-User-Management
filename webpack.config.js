@@ -3,6 +3,7 @@ const Dotenv = require('dotenv-webpack');
 const path = require('path');
 
 module.exports = {
+    devtool: 'inline-cheap-module-source-map',
     entry: './src/index.ts',
     mode: 'development',
     module: {
@@ -50,5 +51,5 @@ module.exports = {
         historyApiFallback: true,
         contentBase: './',
         hot: true
-    }
+    },
 };

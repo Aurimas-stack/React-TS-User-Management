@@ -1,5 +1,5 @@
-import {API} from '~/constants';
-import { getUrl } from '~/utils/getFunctions';
+import { API } from "~/constants";
+import { getUrl } from "~/utils/getFunctions";
 
 const login = async (username: string, password: string) => {
   const url = getUrl(API.Login, {
@@ -7,13 +7,16 @@ const login = async (username: string, password: string) => {
     password,
   });
 
-  const response = await fetch(url);
-  console.log(response)
+  const response: Response = await fetch(url);
+
+  if (response.status === 401) {
+    return response.status;
+  }
+
   const data = await response.json();
   const { token } = data;
 
-
-  localStorage.setItem('token', token);
+  localStorage.setItem("token", token);
 };
 
 export default login;

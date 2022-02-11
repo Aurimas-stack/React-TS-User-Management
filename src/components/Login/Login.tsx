@@ -12,27 +12,44 @@ const Login = (): JSX.Element => {
   const [username, setUsername] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const [loading, setIsLoading] = useState<boolean>(false);
-  const [errorMessage, setErrorMessage] = useState<string>("");
+  const [errorMessage, setErrorMessage] = useState<string>(null);
 
   const handleSubmit = async (
     event: SyntheticEvent<HTMLFormElement>
   ): Promise<void> => {
     event.preventDefault();
-    setIsLoading(true);
     setErrorMessage(null);
+
+    if (username.length === 0 && password.length === 0) {
+      setErrorMessage("Type in username and password");
+      return;
+    }
+
+    if (username.length === 0) {
+      setErrorMessage("Type in a username.");
+      return;
+    }
+
+    if (password.length === 0) {
+      setErrorMessage("Type in a password.");
+      return;
+    }
+
     try {
-      await login(username, password);
+      const loginResponse = await login(username, password);
+      if (loginResponse === 401) {
+        setErrorMessage("Wrong username or password.");
+        setIsLoading(false);
+        return;
+      }
       setIsLoading(false);
       push(Routes.Users);
     } catch (error) {
+      console.log(error.status)
       setErrorMessage(error.message);
       setIsLoading(false);
     }
   };
-
-  if (loading === true) {
-    return <LoadingScreen />;
-  }
 
   return (
     <div className="login-page">
@@ -40,6 +57,7 @@ const Login = (): JSX.Element => {
         <h1 className="text-center">Mygom.tech</h1>
         <input
           value={username}
+          maxLength={100}
           onChange={(event) => setUsername(event.target.value)}
           placeholder="Username"
           type="text"
@@ -47,15 +65,20 @@ const Login = (): JSX.Element => {
         />
         <input
           value={password}
+          maxLength={100}
           onChange={(event) => setPassword(event.target.value)}
           placeholder="Password"
           type="password"
           className="input mt-24px"
         />
         <ErrorBlock error={errorMessage} />
-        <button type="submit" className="button mt-24px">
-          Login
-        </button>
+        {loading ? (
+          <LoadingScreen />
+        ) : (
+          <button type="submit" className="button mt-24px">
+            Login
+          </button>
+        )}
       </form>
     </div>
   );

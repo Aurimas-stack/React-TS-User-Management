@@ -68,10 +68,10 @@ const List: FC<IList> = ({items}) => (
               {item.name}
             </div>
             <div className="description">
-              {item.email}
+              {"User email: " + item.email}
             </div>
             <div className="creation_date">
-              {item.createdAt.substring(0, 10)}
+              {"Created at: " + item.createdAt.substring(0, 10)}
             </div>
           </div>
           <UpdateModal item={item} />

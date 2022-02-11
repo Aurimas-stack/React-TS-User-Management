@@ -16,5 +16,14 @@
     padding: 50px;
     width: 350px;
     height: 400px;
+
+    .loading-screen {
+      margin-top: 30px;
+    }
+    .error_block {
+      margin-top:20px;
+      color:rgb(231, 22, 22);
+      text-align: center;
+    }
   }
 }

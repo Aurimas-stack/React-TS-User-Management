@@ -27,7 +27,7 @@ export const useUserContext = () => useContext(UserContext);
 
 export const UserContextProvider = ({ children }) => {
   const [errorMessage, setErrorMessage] = useState<string>(null);
-  const [isLoading, setIsLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState<boolean>(true);
   const [username, setUsername] = useState<string>(null);
   const [email, setEmail] = useState<string>(null);
   const [id, setId] = useState<string>(null);

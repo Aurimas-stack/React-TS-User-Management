@@ -22,7 +22,7 @@ const App = (): JSX.Element => (
       />
       <PrivateRoute
         path={Routes.Root}
-        component={() => <Redirect to={Routes.Users}/>}
+        component={() => <Redirect to={Routes.Login}/>}
       />
     </Switch>
   </Router>
