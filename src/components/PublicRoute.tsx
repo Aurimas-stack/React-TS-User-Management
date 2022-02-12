@@ -7,7 +7,7 @@ const PublicRoute: FC<RouteProps> = ({
  component,
 }) => {
   const {push} = useHistory();
-  const token = localStorage.getItem('token');
+  const token: string = localStorage.getItem('token');
 
   if (token) {
     push(Routes.Users);

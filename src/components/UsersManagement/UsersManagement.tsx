@@ -1,13 +1,14 @@
+import {Route, Switch} from "react-router-dom";
+import {Routes} from '~/constants';
+import { itemHasWeakEmail, itemHasReusedEmail, itemHasOldAge } from '~/utils/itemHasFunctions';
+import { useUserContext } from '../UserContext';
+
 import List from './components/List/List';
 import useItemsProvider from './useItemsProvider';
 import ErrorBlock from '../ErrorBlock';
 import Filter from './components/Filter/Filter';
 import LoadingScreen from '../LoadingScreen';
 import Header from './components/Header/Header';
-import {Route, Switch} from "react-router-dom";
-import {Routes} from '~/constants';
-import { itemHasWeakEmail, itemHasReusedPassword, itemHasOldAge } from '~/utils/itemHasFunctions';
-import { useUserContext } from '../UserContext';
 
 const UsersManagement = () => {
   const {
@@ -42,7 +43,7 @@ const UsersManagement = () => {
           <List items={items.filter((item) => itemHasWeakEmail(item.email) === true)}/>
         </Route>
         <Route path={Routes.Reused}>
-          <List items={items.filter((item) => itemHasReusedPassword(item, items))}/>
+          <List items={items.filter((item) => itemHasReusedEmail(item, items))}/>
         </Route>
         <Route path={Routes.Old}>
           <List items={items.filter((item) => itemHasOldAge(new Date(item.createdAt)) > 30)} />

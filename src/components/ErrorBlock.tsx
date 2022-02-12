@@ -1,7 +1,7 @@
 import { FC, memo } from "react";
 
 interface IErrorBlock {
-  error: String;
+  error: string;
 }
 
 const ErrorBlock: FC<IErrorBlock> = ({ error }) => {

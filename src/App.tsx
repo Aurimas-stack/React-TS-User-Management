@@ -1,11 +1,12 @@
 import {BrowserRouter as Router, Redirect, Switch} from 'react-router-dom';
+import {Routes} from './constants';
+import { UserContextProvider } from './components/UserContext';
 
 import Login from './components/Login/Login';
 import UsersManagement from './components/UsersManagement/UsersManagement';
 import PrivateRoute from './components/PrivateRoute';
 import PublicRoute from './components/PublicRoute';
-import {Routes} from './constants';
-import { UserContextProvider } from './components/UserContext';
+
 
 import './style/styles.scss';
 

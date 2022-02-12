@@ -11,6 +11,7 @@ interface IFilter {
 }
 
 const Filter: FC<IFilter> = ({items}) => {
+  
   return (
     <div className="filter">
       <FilterTab title="all" count={items.length} path={Routes.Users}/>

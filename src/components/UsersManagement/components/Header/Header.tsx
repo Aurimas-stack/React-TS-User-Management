@@ -2,6 +2,7 @@ import {FC} from 'react';
 import {IItem} from "~/services/getUserItems";
 import { useHistory } from 'react-router-dom';
 import { Routes } from '~/constants';
+import { useUserContext } from '~/components/UserContext';
 import logout from '../../../../services/logout';
 
 import './header-style.scss';
@@ -13,10 +14,11 @@ interface IHeader {
 
 const Header: FC<IHeader> = ({items, username}) => {
   const {push} = useHistory();
-
-
+  const userContext = useUserContext();
+  
   const handleLogout = () => {
     logout();
+    userContext.deleteData();
     push(Routes.Login);
   }
   

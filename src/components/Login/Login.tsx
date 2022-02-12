@@ -1,4 +1,4 @@
-import { SyntheticEvent, useState } from "react";
+import { SyntheticEvent, useState, useEffect } from "react";
 import { useHistory } from "react-router-dom";
 import { Routes } from "~/constants";
 import LoadingScreen from "../LoadingScreen";
@@ -11,8 +11,10 @@ const Login = (): JSX.Element => {
   const { push } = useHistory();
   const [username, setUsername] = useState<string>("");
   const [password, setPassword] = useState<string>("");
-  const [loading, setIsLoading] = useState<boolean>(false);
   const [errorMessage, setErrorMessage] = useState<string>(null);
+  const [wrongAttempts, setWrongAttemps] = useState<number>(0);
+  const [timeLeft, setTimeLeft] = useState<number>(30);
+  const [loading, setIsLoading] = useState<boolean>(false);
 
   const handleSubmit = async (
     event: SyntheticEvent<HTMLFormElement>
@@ -20,66 +22,114 @@ const Login = (): JSX.Element => {
     event.preventDefault();
     setErrorMessage(null);
 
-    if (username.length === 0 && password.length === 0) {
+    const usernameLength = username.length;
+    const passwordLength = password.length;
+
+    if (wrongAttempts === 3) {
+      return;
+    }
+
+    if (usernameLength === 0 && passwordLength === 0) {
+      setWrongAttemps(wrongAttempts + 1);
       setErrorMessage("Type in username and password");
       return;
     }
 
-    if (username.length === 0) {
+    if (usernameLength === 0) {
+      setWrongAttemps(wrongAttempts + 1);
       setErrorMessage("Type in a username.");
       return;
     }
 
-    if (password.length === 0) {
+    if (passwordLength === 0) {
+      setWrongAttemps(wrongAttempts + 1);
       setErrorMessage("Type in a password.");
       return;
     }
 
+    if (usernameLength > 30 || passwordLength > 30) {
+      setWrongAttemps(wrongAttempts + 1);
+      setErrorMessage("Username or password is too long.");
+      return;
+    }
+
+    setIsLoading(true);
+
     try {
       const loginResponse = await login(username, password);
       if (loginResponse === 401) {
+        setWrongAttemps(wrongAttempts + 1);
         setErrorMessage("Wrong username or password.");
         setIsLoading(false);
+        console.clear();
         return;
       }
       setIsLoading(false);
       push(Routes.Users);
     } catch (error) {
-      console.log(error.status)
       setErrorMessage(error.message);
       setIsLoading(false);
     }
   };
 
+  useEffect(() => {
+    //just a simple counter for sake of simulating too many wrong attempts
+    if (wrongAttempts !== 3) {
+      return;
+    }
+
+    if (timeLeft === 0) {
+      setTimeLeft(30);
+      setWrongAttemps(0);
+      setUsername("");
+      setPassword("");
+      setErrorMessage(null);
+    }
+
+    const interval = setInterval(() => {
+      setTimeLeft(timeLeft - 1);
+    }, 1000);
+
+    return () => clearInterval(interval);
+  }, [wrongAttempts, timeLeft]);
+
   return (
     <div className="login-page">
-      <form className="login-form" onSubmit={handleSubmit}>
-        <h1 className="text-center">Mygom.tech</h1>
-        <input
-          value={username}
-          maxLength={100}
-          onChange={(event) => setUsername(event.target.value)}
-          placeholder="Username"
-          type="text"
-          className="input mt-52px"
-        />
-        <input
-          value={password}
-          maxLength={100}
-          onChange={(event) => setPassword(event.target.value)}
-          placeholder="Password"
-          type="password"
-          className="input mt-24px"
-        />
-        <ErrorBlock error={errorMessage} />
-        {loading ? (
+      {wrongAttempts === 3 ? (
+        <div className="timeout_container">
+          <p>Wait for another try :</p>
           <LoadingScreen />
-        ) : (
-          <button type="submit" className="button mt-24px">
-            Login
-          </button>
-        )}
-      </form>
+          <p>{timeLeft}</p>
+        </div>
+      ) : (
+        <form className="login-form" onSubmit={handleSubmit}>
+          <h1 className="text-center">Mygom.tech</h1>
+          <input
+            value={username}
+            maxLength={30}
+            onChange={(event) => setUsername(event.target.value)}
+            placeholder="Username"
+            type="text"
+            className="input mt-52px"
+          />
+          <input
+            value={password}
+            maxLength={30}
+            onChange={(event) => setPassword(event.target.value)}
+            placeholder="Password"
+            type="password"
+            className="input mt-24px"
+          />
+          <ErrorBlock error={errorMessage} />
+          {loading ? (
+            <LoadingScreen />
+          ) : (
+            <button type="submit" className="button mt-24px">
+              Login
+            </button>
+          )}
+        </form>
+      )}
     </div>
   );
 };

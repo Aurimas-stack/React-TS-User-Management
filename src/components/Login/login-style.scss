@@ -26,4 +26,13 @@
       text-align: center;
     }
   }
+  .timeout_container {
+    display:flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #fff;
+    width:250px;
+    padding:10px;
+    color:rgb(221, 26, 26)
+  }
 }
