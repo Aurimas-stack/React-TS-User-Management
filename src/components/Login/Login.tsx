@@ -1,9 +1,10 @@
 import { SyntheticEvent, useState, useEffect } from "react";
 import { useHistory } from "react-router-dom";
-import { Routes } from "~/constants";
-import LoadingScreen from "../LoadingScreen";
+
 import login from "~/services/login";
-import ErrorBlock from "../ErrorBlock";
+import { Routes } from "~/constants";
+import { LoginForm } from "./Components/LoginForm";
+import { TimeOutContainer } from "./Components/TimeOutContainer";
 
 import "./login-style.scss";
 
@@ -57,23 +58,21 @@ const Login = (): JSX.Element => {
 
     try {
       const loginResponse = await login(username, password);
-      if (loginResponse === 401) {
-        setWrongAttemps(wrongAttempts + 1);
-        setErrorMessage("Wrong username or password.");
-        setIsLoading(false);
-        console.clear();
-        return;
+      if (loginResponse !== 401) {
+        push(Routes.Login);
       }
-      setIsLoading(false);
-      push(Routes.Users);
+      setWrongAttemps(wrongAttempts + 1);
+      setErrorMessage("Wrong username or password.");
+      console.clear();
     } catch (error) {
       setErrorMessage(error.message);
-      setIsLoading(false);
     }
+
+    setIsLoading(false);
   };
 
   useEffect(() => {
-    //just a simple counter for sake of simulating too many wrong attempts
+    //just a simple counter(only on front end) to simulate too many wrong login attempts
     if (wrongAttempts !== 3) {
       return;
     }
@@ -96,39 +95,17 @@ const Login = (): JSX.Element => {
   return (
     <div className="login-page">
       {wrongAttempts === 3 ? (
-        <div className="timeout_container">
-          <p>Wait for another try :</p>
-          <LoadingScreen />
-          <p>{timeLeft}</p>
-        </div>
+        <TimeOutContainer timeLeft={timeLeft} />
       ) : (
-        <form className="login-form" onSubmit={handleSubmit}>
-          <h1 className="text-center">Mygom.tech</h1>
-          <input
-            value={username}
-            maxLength={30}
-            onChange={(event) => setUsername(event.target.value)}
-            placeholder="Username"
-            type="text"
-            className="input mt-52px"
-          />
-          <input
-            value={password}
-            maxLength={30}
-            onChange={(event) => setPassword(event.target.value)}
-            placeholder="Password"
-            type="password"
-            className="input mt-24px"
-          />
-          <ErrorBlock error={errorMessage} />
-          {loading ? (
-            <LoadingScreen />
-          ) : (
-            <button type="submit" className="button mt-24px">
-              Login
-            </button>
-          )}
-        </form>
+        <LoginForm
+          onSubmit={handleSubmit}
+          setUsername={setUsername}
+          setPassword={setPassword}
+          username={username}
+          password={password}
+          loading={loading}
+          errorMessage={errorMessage}
+        />
       )}
     </div>
   );

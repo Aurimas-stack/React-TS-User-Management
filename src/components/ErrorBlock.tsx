@@ -4,7 +4,7 @@ interface IErrorBlock {
   error: string;
 }
 
-const ErrorBlock: FC<IErrorBlock> = ({ error }) => {
+const ErrorBlock: FC<IErrorBlock> = ({ error }): JSX.Element => {
   if (!error) return null;
 
   return <div className="error_block">{error}</div>;

@@ -1,20 +1,26 @@
-import { employees } from '../data';
+import { Roles } from "../data";
+import { employees } from "../data";
 
-let items = [];
+interface Items {
+  id: string;
+  name: string;
+  role: Roles;
+  email: string;
+  createdAt: string;
+}
 
-export const updateItem = (item) => {
+let items: Items[] = [];
+
+export const updateItem = (item: Items) => {
   items.push(item);
 };
 
 export const getItems = () => {
   return employees.map((userItem) => {
-    const updatedItem = items.find(({ id }) => id === userItem.id);
+    const updatedItem: Items = items.find(({ id }) => id === userItem.id);
 
     return {
       ...(updatedItem || userItem),
     };
-  })
+  });
 };
-
-
-

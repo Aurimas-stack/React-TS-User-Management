@@ -1,5 +1,5 @@
 const logout = () => {
-    return localStorage.clear();
+  return localStorage.clear();
 };
 
 export default logout;

@@ -1,5 +1,7 @@
 import { useEffect, useState } from "react";
-import getUserItems, { IItem } from "../../services/getUserItems";
+
+import { IItem } from "~/constants";
+import getUserItems from "../../services/getUserItems";
 
 const userItemsProvider = () => {
   const [isLoading, setIsLoading] = useState<boolean>(true);
@@ -16,7 +18,7 @@ const userItemsProvider = () => {
       } catch (error) {
         setErrorMessage(error.message);
       }
-      
+
       setIsLoading(false);
     })();
   }, []);

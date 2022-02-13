@@ -1,13 +1,14 @@
 import { FC, useState } from "react";
-import { IItem } from "~/services/getUserItems";
-import updateItem from "../../../../services/updateItem";
+
+import { IItem } from "~/constants";
+import updateItem from "../../../../../services/updateItem";
 import Modal from "react-modal";
 
 interface IUpdateModal {
   item: IItem;
 }
 
-Modal.setAppElement('#app');
+Modal.setAppElement("#app");
 
 const UpdateModal: FC<IUpdateModal> = ({ item }): JSX.Element => {
   const [showModal, setShowModal] = useState<boolean>(false);

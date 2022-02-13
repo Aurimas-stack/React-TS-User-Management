@@ -1,18 +1,6 @@
-import {API} from "~/constants";
+import { API } from "~/constants";
+import { IItem } from "~/constants";
 import { getUrl } from "~/utils/getFunctions";
-
-export enum Roles {
-  read = 'read',
-  write = 'write',
-  amin = 'amin'
-}
-
-export interface IItem {
-  name: string,
-  role: Roles,
-  email: string,
-  createdAt: string,
-}
 
 const getUserItems = async (userId?: string): Promise<Array<IItem>> => {
   const url = getUrl(API.Items, {
@@ -21,8 +9,8 @@ const getUserItems = async (userId?: string): Promise<Array<IItem>> => {
 
   const response = await fetch(url, {
     headers: {
-      Authorization: `Bearer ${localStorage.getItem('token')}`,
-    }
+      Authorization: `Bearer ${localStorage.getItem("token")}`,
+    },
   });
 
   const data = await response.json();

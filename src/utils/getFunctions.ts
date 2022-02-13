@@ -1,8 +1,8 @@
-import { IItem } from "~/services/getUserItems";
-import { API } from '../constants';
-import { itemHasOldAge,  itemHasWeakEmail, itemHasReusedEmail } from "./itemHasFunctions";
-import qs from 'query-string';
+import qs from "query-string";
 
+import { IItem } from "../constants";
+import { API } from "../constants";
+import { itemHasOldAge, itemHasWeakEmail } from "./itemHasFunctions";
 
 export const getItemCount = (items: IItem[], parameter?: string): number => {
   if (parameter === "email") {
@@ -23,8 +23,7 @@ export const getItemCount = (items: IItem[], parameter?: string): number => {
 };
 
 export const getUrl = (endpoint: API, params?: Record<string, any>) => {
+  const query = qs.stringify(params);
 
-    const query = qs.stringify(params);
-  
-    return `${process.env.API_URL}/${endpoint}${query ? `?${query}` : ''}`
-  };
+  return `${process.env.API_URL}/${endpoint}${query ? `?${query}` : ""}`;
+};

@@ -20,19 +20,21 @@
     .loading-screen {
       margin-top: 30px;
     }
+
     .error_block {
-      margin-top:20px;
-      color:rgb(231, 22, 22);
+      margin-top: 20px;
+      color: rgb(231, 22, 22);
       text-align: center;
     }
   }
+
   .timeout_container {
-    display:flex;
+    display: flex;
     justify-content: center;
     align-items: center;
     background-color: #fff;
-    width:250px;
-    padding:10px;
-    color:rgb(221, 26, 26)
+    width: 250px;
+    padding: 10px;
+    color: rgb(221, 26, 26)
   }
 }
