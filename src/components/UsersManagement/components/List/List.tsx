@@ -2,6 +2,7 @@ import { FC } from "react";
 
 import { IItem } from "~/constants";
 import ItemIcon from "./components/ItemIcon";
+import ItemInfo  from "./components/ItemInfo";
 import UpdateModal from "./components/UpdateModal";
 
 import "./list-style.scss";
@@ -15,13 +16,7 @@ const List: FC<IList> = ({ items }): JSX.Element => (
     {items.map((item, key) => (
       <li className="item" key={key}>
         <ItemIcon name={item.name} />
-        <div>
-          <div className="title">{item.name}</div>
-          <div className="description">{"User email: " + item.email}</div>
-          <div className="creation_date">
-            {"Created at: " + item.createdAt.substring(0, 10)}
-          </div>
-        </div>
+        <ItemInfo name={item.name} email={item.email} date={item.createdAt} />
         <UpdateModal item={item} />
       </li>
     ))}

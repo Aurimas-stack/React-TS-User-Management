@@ -5,12 +5,12 @@ export const itemHasReusedEmail = (item: IItem, itemList: Array<IItem>) => {
   const reusedItems = itemList.filter(
     (listItem) => listItem.email === item.email
   );
-  return reusedItems.length > 1;
+  return reusedItems.length;
 };
 
-export const itemHasWeakEmail = (email: string): boolean => {
-  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-  if (!emailRegex.test(email)) {
+export const itemHasWrongEmail = (email: string): boolean => {
+  const validEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  if (!validEmail.test(email)) {
     return true;
   }
 };

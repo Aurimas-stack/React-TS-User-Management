@@ -2,13 +2,13 @@ import qs from "query-string";
 
 import { IItem } from "../constants";
 import { API } from "../constants";
-import { itemHasOldAge, itemHasWeakEmail } from "./itemHasFunctions";
+import { itemHasOldAge, itemHasWrongEmail } from "./itemHasFunctions";
 
 export const getItemCount = (items: IItem[], parameter?: string): number => {
   if (parameter === "email") {
     return items.reduce(
       (count, { email }) =>
-        itemHasWeakEmail(email) === true ? count + 1 : count,
+        itemHasWrongEmail(email) === true ? count + 1 : count,
       0
     );
   }

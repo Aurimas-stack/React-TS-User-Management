@@ -1,13 +1,13 @@
 import { Route, Switch } from "react-router-dom";
 import { Routes } from "~/constants";
-import { useUserContext } from "../UserContext";
 
-import useItemsProvider from "./useItemsProvider";
 import {
-  itemHasWeakEmail,
+  itemHasWrongEmail,
   itemHasReusedEmail,
   itemHasOldAge,
 } from "~/utils/itemHasFunctions";
+import { useUserContext } from "../UserContext";
+import useItemsProvider from "./useItemsProvider";
 import Header from "./components/Header/Header";
 import Filter from "./components/Filter/Filter";
 import List from "./components/List/List";
@@ -42,7 +42,7 @@ const UsersManagement = (): JSX.Element => {
         <Route path={Routes.Weak}>
           <List
             items={items.filter(
-              (item) => itemHasWeakEmail(item.email) === true
+              (item) => itemHasWrongEmail(item.email) === true
             )}
           />
         </Route>

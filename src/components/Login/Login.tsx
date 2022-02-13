@@ -1,10 +1,10 @@
 import { SyntheticEvent, useState, useEffect } from "react";
 import { useHistory } from "react-router-dom";
 
-import login from "~/services/login";
 import { Routes } from "~/constants";
-import { LoginForm } from "./Components/LoginForm";
-import { TimeOutContainer } from "./Components/TimeOutContainer";
+import login from "~/services/login";
+import LoginForm  from "./Components/LoginForm";
+import TimeOutContainer  from "./Components/TimeOutContainer";
 
 import "./login-style.scss";
 
@@ -72,7 +72,6 @@ const Login = (): JSX.Element => {
   };
 
   useEffect(() => {
-    //just a simple counter(only on front end) to simulate too many wrong login attempts
     if (wrongAttempts !== 3) {
       return;
     }

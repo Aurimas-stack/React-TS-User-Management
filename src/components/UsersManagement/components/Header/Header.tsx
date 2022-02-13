@@ -4,7 +4,7 @@ import { useHistory } from "react-router-dom";
 import { IItem } from "~/constants";
 import { Routes } from "~/constants";
 import { useUserContext } from "~/components/UserContext";
-import logout from "../../../../services/logout";
+import {logout} from "../../../../services/logout";
 
 import "./header-style.scss";
 

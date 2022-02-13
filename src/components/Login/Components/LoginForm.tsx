@@ -5,37 +5,45 @@ import ErrorBlock from "../../ErrorBlock";
 import LoadingScreen from "../../LoadingScreen";
 
 interface LoginProps {
-  onSubmit: (event: SyntheticEvent<HTMLFormElement>) => Promise<void>;
-  errorMessage: string;
-  loading: boolean;
   username: string;
   password: string;
+  errorMessage: string;
+  loading: boolean;
   setUsername: (event: string) => void;
   setPassword: (event: string) => void;
+  onSubmit: (event: SyntheticEvent<HTMLFormElement>) => Promise<void>;
 }
 
-export const LoginForm: FC<LoginProps> = (props): JSX.Element => {
+export const LoginForm: FC<LoginProps> = ({
+  username,
+  password,
+  errorMessage,
+  loading,
+  setUsername,
+  setPassword,
+  onSubmit,
+}): JSX.Element => {
   return (
-    <form className="login-form" onSubmit={props.onSubmit}>
+    <form className="login-form" onSubmit={onSubmit}>
       <h1 className="text-center">Mygom.tech</h1>
       <input
-        value={props.username}
+        value={username}
         maxLength={30}
-        onChange={(event) => props.setUsername(event.target.value)}
+        onChange={(event) => setUsername(event.target.value)}
         placeholder="Username"
         type="text"
         className="input mt-52px"
       />
       <input
-        value={props.password}
+        value={password}
         maxLength={30}
-        onChange={(event) => props.setPassword(event.target.value)}
+        onChange={(event) => setPassword(event.target.value)}
         placeholder="Password"
         type="password"
         className="input mt-24px"
       />
-      <ErrorBlock error={props.errorMessage} />
-      {props.loading ? (
+      <ErrorBlock error={errorMessage} />
+      {loading ? (
         <LoadingScreen />
       ) : (
         <button type="submit" className="button mt-24px">
@@ -45,3 +53,5 @@ export const LoginForm: FC<LoginProps> = (props): JSX.Element => {
     </form>
   );
 };
+
+export default LoginForm;

@@ -15,3 +15,5 @@ export const TimeOutContainer: FC<TimeOutProps> = (props): JSX.Element => {
     </div>
   );
 };
+
+export default TimeOutContainer;

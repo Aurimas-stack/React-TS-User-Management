@@ -7,7 +7,7 @@ const getUserItems = async (userId?: string): Promise<Array<IItem>> => {
     userId,
   });
 
-  const response = await fetch(url, {
+  const response: Response = await fetch(url, {
     headers: {
       Authorization: `Bearer ${localStorage.getItem("token")}`,
     },

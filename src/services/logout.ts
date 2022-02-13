@@ -1,5 +1,4 @@
-const logout = () => {
+export const logout = () => {
   return localStorage.clear();
 };
 
-export default logout;
