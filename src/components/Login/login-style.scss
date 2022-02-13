@@ -16,5 +16,25 @@
     padding: 50px;
     width: 350px;
     height: 400px;
+
+    .loading-screen {
+      margin-top: 30px;
+    }
+
+    .error_block {
+      margin-top: 20px;
+      color: rgb(231, 22, 22);
+      text-align: center;
+    }
+  }
+
+  .timeout_container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #fff;
+    width: 250px;
+    padding: 10px;
+    color: rgb(221, 26, 26)
   }
 }

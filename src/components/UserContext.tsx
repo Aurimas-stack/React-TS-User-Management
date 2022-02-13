@@ -1,6 +1,7 @@
-import { createContext, useContext, useEffect, useState } from 'react';
-import { API } from '~/constants';
-import getUrl from '~/utils/getUrl';
+import { createContext, useContext, useEffect, useState } from "react";
+
+import { getUrl } from "~/utils/getFunctions";
+import { API } from "~/constants";
 
 interface IUser {
   updateUser: () => void;
@@ -22,24 +23,24 @@ const UserContext = createContext<IUser>({
   id: null,
 });
 
-export const useUserContext = () => useContext(UserContext);
+export const useUserContext = (): IUser => useContext(UserContext);
 
-export const UserContextProvider = ({ children }) => {
+export const UserContextProvider = ({ children }): JSX.Element => {
   const [errorMessage, setErrorMessage] = useState<string>(null);
-  const [isLoading, setIsLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState<boolean>(true);
   const [username, setUsername] = useState<string>(null);
   const [email, setEmail] = useState<string>(null);
   const [id, setId] = useState<string>(null);
 
-  const updateUser = async () => {
+  const updateUser = async (): Promise<void> => {
     setErrorMessage(null);
     setIsLoading(true);
 
     try {
-      const response = await fetch(getUrl(API.User), {
+      const response: Response = await fetch(getUrl(API.User), {
         headers: {
-          Authorization: `Bearer ${localStorage.getItem('token')}`,
-        }
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
       });
 
       const data = await response.json();
@@ -52,7 +53,7 @@ export const UserContextProvider = ({ children }) => {
     }
 
     setIsLoading(false);
-  }
+  };
 
   const deleteData = () => {
     setErrorMessage(null);
@@ -63,7 +64,7 @@ export const UserContextProvider = ({ children }) => {
   };
 
   useEffect(() => {
-   updateUser();
+    updateUser();
   }, []);
 
   const value = {
@@ -76,11 +77,7 @@ export const UserContextProvider = ({ children }) => {
     id,
   };
 
-  return (
-    <UserContext.Provider value={value}>
-      {children}
-    </UserContext.Provider>
-  )
-}
+  return <UserContext.Provider value={value}>{children}</UserContext.Provider>;
+};
 
 export default UserContext;

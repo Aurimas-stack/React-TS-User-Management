@@ -1,32 +1,15 @@
-# Interview task User management
+## Changes Made:
 
-## How to start
-* create a GitHub project from the template by clicking `Use this template` and filling the information required 
-* create a new branch `develop`
-* before returning the task create a merge request from `develop` to `master` in your repository, so it's easier to see all the changes
-
-## Setup
-
-* run `yarn`
-* run `yarn start`. make sure required ports are available
-* open `http://localhost:8080/`
-* Enter your mocked user credentials
-    
-    *username:* `admin`
-
-    *password:* `admin`
-
-## Scripts
-
- `yarn start:server` - starts mocked backend.
-
- `yarn start:web` - starts dev server.
- 
- `yarn start` - starts both dev server and mocked backend.
- 
- `yarn test` - runs tests in project.
-
-
-## Information
-
-Don't forget that mocked backed server doesn't store your tokens in database they are stored in memory, so your tokens will be invalid after server restart.
+* Logout button works, data is deleted from localStorage. After logout user is redirected back to login screen.
+* Added additional filter tab for older emails. Only email which are older than 30 days are added to it. Calculations are done with miliseconds for accuracy.
+* Added emails to the item list.
+* Login is validated this way: 
+    - Username or password can't be empty or longer than 30 characters.
+    - User is only logged in if information for username or password is correct.
+    - Incorrect login attempts are logged in. After 3 tries, 30 second counter is displayed instead of login form. This timeout counter is only to simulate too many wrong attempts (it's only on the front end of the application).
+* During correct or incorrect login, while information is being fetched, a loader is displayed instead of the login button.
+* After email update, page is not reloaded. After update, the update modal is closed automatically.
+* Added wrong emails filter by using regex.
+* Fixed some typos, added missing types, some functions moved to one general file (instead of multiple ones).
+* Added some more additional components, for purposes of refractoring.
+* Fixed visible errors in the console and in the code.

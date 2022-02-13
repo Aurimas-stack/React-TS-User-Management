@@ -1,8 +1,8 @@
-# Interview task "User management"
+## Interview task "User management"
 
 ## Tasks
 
- Our customer support team is receiving a storm of complaints. You're the only guy who can solve this problem. Here's what you have to do to fix the situation:
+Our customer support team is receiving a storm of complaints. You're the only guy who can solve this problem. Here's what you have to do to fix the situation:
 
 * You may notice that logout button is not working
 * Create additional tab (old) that should show emails older than 30d

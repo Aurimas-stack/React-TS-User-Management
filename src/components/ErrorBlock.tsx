@@ -1,19 +1,13 @@
-import {FC, memo} from 'react';
+import { FC, memo } from "react";
 
 interface IErrorBlock {
-  error: String
+  error: string;
 }
 
-const ErrorBlock: FC<IErrorBlock> = ({error}) => {
-  if (!error) {
-    return null;
-  }
+const ErrorBlock: FC<IErrorBlock> = ({ error }): JSX.Element => {
+  if (!error) return null;
 
-  return (
-    <div>
-      {error}
-    </div>
-  )
-}
+  return <div className="error_block">{error}</div>;
+};
 
 export default memo(ErrorBlock);

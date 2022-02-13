@@ -1,56 +1,113 @@
-import {SyntheticEvent, useState} from 'react';
-import {useHistory} from 'react-router-dom';
-import {Routes} from '~/constants';
-import login from '~/services/login';
-import ErrorBlock from '../ErrorBlock';
+import { SyntheticEvent, useState, useEffect } from "react";
+import { useHistory } from "react-router-dom";
 
-import './login-style.scss';
+import { Routes } from "~/constants";
+import login from "~/services/login";
+import LoginForm  from "./Components/LoginForm";
+import TimeOutContainer  from "./Components/TimeOutContainer";
 
-const Login = () => {
-  const {push} = useHistory();
-  const [username, setUsername] = useState('');
-  const [password, setPassword] = useState('');
-  const [errorMessage, setErrorMessage] = useState<string>();
+import "./login-style.scss";
 
-  const handleSubmit = async (event: SyntheticEvent<HTMLFormElement>) => {
+const Login = (): JSX.Element => {
+  const { push } = useHistory();
+  const [username, setUsername] = useState<string>("");
+  const [password, setPassword] = useState<string>("");
+  const [errorMessage, setErrorMessage] = useState<string>(null);
+  const [wrongAttempts, setWrongAttemps] = useState<number>(0);
+  const [timeLeft, setTimeLeft] = useState<number>(30);
+  const [loading, setIsLoading] = useState<boolean>(false);
+
+  const handleSubmit = async (
+    event: SyntheticEvent<HTMLFormElement>
+  ): Promise<void> => {
     event.preventDefault();
     setErrorMessage(null);
 
+    const usernameLength = username.length;
+    const passwordLength = password.length;
+
+    if (wrongAttempts === 3) {
+      return;
+    }
+
+    if (usernameLength === 0 && passwordLength === 0) {
+      setWrongAttemps(wrongAttempts + 1);
+      setErrorMessage("Type in username and password");
+      return;
+    }
+
+    if (usernameLength === 0) {
+      setWrongAttemps(wrongAttempts + 1);
+      setErrorMessage("Type in a username.");
+      return;
+    }
+
+    if (passwordLength === 0) {
+      setWrongAttemps(wrongAttempts + 1);
+      setErrorMessage("Type in a password.");
+      return;
+    }
+
+    if (usernameLength > 30 || passwordLength > 30) {
+      setWrongAttemps(wrongAttempts + 1);
+      setErrorMessage("Username or password is too long.");
+      return;
+    }
+
+    setIsLoading(true);
+
     try {
-      await login(username, password);
-      push(Routes.Users);
+      const loginResponse = await login(username, password);
+      if (loginResponse !== 401) {
+        push(Routes.Login);
+      }
+      setWrongAttemps(wrongAttempts + 1);
+      setErrorMessage("Wrong username or password.");
+      console.clear();
     } catch (error) {
       setErrorMessage(error.message);
     }
+
+    setIsLoading(false);
   };
+
+  useEffect(() => {
+    if (wrongAttempts !== 3) {
+      return;
+    }
+
+    if (timeLeft === 0) {
+      setTimeLeft(30);
+      setWrongAttemps(0);
+      setUsername("");
+      setPassword("");
+      setErrorMessage(null);
+    }
+
+    const interval = setInterval(() => {
+      setTimeLeft(timeLeft - 1);
+    }, 1000);
+
+    return () => clearInterval(interval);
+  }, [wrongAttempts, timeLeft]);
 
   return (
     <div className="login-page">
-      <form className="login-form" onSubmit={handleSubmit}>
-        <h1 className="text-center">
-          Mygom.tech
-        </h1>
-        <input
-          value={username}
-          onChange={(event) => setUsername(event.target.value)}
-          placeholder="Username"
-          type="text"
-          className="input mt-52px"
+      {wrongAttempts === 3 ? (
+        <TimeOutContainer timeLeft={timeLeft} />
+      ) : (
+        <LoginForm
+          onSubmit={handleSubmit}
+          setUsername={setUsername}
+          setPassword={setPassword}
+          username={username}
+          password={password}
+          loading={loading}
+          errorMessage={errorMessage}
         />
-        <input
-          value={password}
-          onChange={(event) => setPassword(event.target.value)}
-          placeholder="Password"
-          type="password"
-          className="input mt-24px"
-        />
-        <ErrorBlock error={errorMessage}/>
-        <button type="submit" className="button mt-24px">
-          Login
-        </button>
-      </form>
+      )}
     </div>
-  )
+  );
 };
 
 export default Login;
